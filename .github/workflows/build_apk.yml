@@ -49,13 +49,10 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          printf '## Download RYDR App\n\nClick **app-release.apk** below to download and install.\n\n> Enable *Install unknown apps* in Android settings before installing.' > notes.md
           gh release delete latest --yes 2>/dev/null || true
           git push origin :refs/tags/latest 2>/dev/null || true
           gh release create latest \
-            --title "RYDR – Latest Release" \
-            --notes "## Download RYDR App
-
-Click **app-release.apk** below to download and install the latest version.
-
-> **Install tip:** Enable *Install unknown apps* in your Android settings before installing." \
+            --title "RYDR - Latest Release" \
+            --notes-file notes.md \
             build/app/outputs/flutter-apk/app-release.apk
