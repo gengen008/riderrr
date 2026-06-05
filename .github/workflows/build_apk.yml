@@ -7,6 +7,9 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -40,3 +43,19 @@ jobs:
           name: rydr-release-apk
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
+
+      - name: Publish GitHub Release
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes 2>/dev/null || true
+          git push origin :refs/tags/latest 2>/dev/null || true
+          gh release create latest \
+            --title "RYDR – Latest Release" \
+            --notes "## Download RYDR App
+
+Click **app-release.apk** below to download and install the latest version.
+
+> **Install tip:** Enable *Install unknown apps* in your Android settings before installing." \
+            build/app/outputs/flutter-apk/app-release.apk
