@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rydr/utils/images_path.dart';
 import 'package:rydr/utils/margins.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Onboarding/onboarding.dart';
+import 'Home/home_view.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Duration(milliseconds: 2500),
         () => Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) {
-              return isviewed != 0 ? Onboarding() : Onboarding();
+              return Homeview();
             })));
   }
 
